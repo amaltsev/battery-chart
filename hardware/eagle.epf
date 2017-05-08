@@ -377,9 +377,10 @@ UsedLibrary="/home/am/eagle/SparkFun-Eagle-Libraries/SparkFun-Sensors.lbr"
 UsedLibrary="/home/am/eagle/SparkFun-Eagle-Libraries/SparkFun-Switches.lbr"
 UsedLibrary="/home/am/eagle/SparkFun-Eagle-Libraries/User-Submitted.lbr"
 UsedLibrary="/home/am/eagle/Libraries/ArduinoNano/ArduinoNanoV30.lbr"
-UsedLibrary="Recom-R-735.lbr"
 UsedLibrary="ext/ArduinoNano/ArduinoNanoV30.lbr"
 UsedLibrary="my/Recom-R-735.lbr"
+UsedLibrary="my/MAX-11632.lbr"
+UsedLibrary="my/VREF-AD1582-85.lbr"
 
 [Win_1]
 Type="Control Panel"
