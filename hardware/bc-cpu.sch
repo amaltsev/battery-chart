@@ -6762,18 +6762,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <junction x="198.12" y="91.44"/>
 <label x="200.66" y="92.202" size="1.27" layer="95"/>
 </segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="U3" gate="U1" pin="REF"/>
-<wire x1="116.84" y1="99.06" x2="119.38" y2="99.06" width="0.1524" layer="91"/>
-<pinref part="C31" gate="G$1" pin="1"/>
-<wire x1="119.38" y1="99.06" x2="124.46" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="119.38" y1="88.9" x2="119.38" y2="99.06" width="0.1524" layer="91"/>
-<junction x="119.38" y="99.06"/>
-</segment>
-</net>
-<net name="N$3" class="0">
 <segment>
 <pinref part="U2" gate="U1" pin="REF"/>
 <wire x1="124.46" y1="152.4" x2="119.38" y2="152.4" width="0.1524" layer="91"/>
@@ -6781,6 +6769,16 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="119.38" y1="152.4" x2="116.84" y2="152.4" width="0.1524" layer="91"/>
 <wire x1="119.38" y1="152.4" x2="119.38" y2="142.24" width="0.1524" layer="91"/>
 <junction x="119.38" y="152.4"/>
+<label x="121.92" y="152.4" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U3" gate="U1" pin="REF"/>
+<wire x1="116.84" y1="99.06" x2="119.38" y2="99.06" width="0.1524" layer="91"/>
+<pinref part="C31" gate="G$1" pin="1"/>
+<wire x1="119.38" y1="99.06" x2="124.46" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="119.38" y1="88.9" x2="119.38" y2="99.06" width="0.1524" layer="91"/>
+<junction x="119.38" y="99.06"/>
+<label x="121.92" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SCLK" class="0">
