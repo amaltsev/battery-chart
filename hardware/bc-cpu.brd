@@ -158,7 +158,7 @@
 <text x="13.97" y="62.23" size="1.016" layer="21" font="vector" ratio="10" align="bottom-center">47K</text>
 <text x="11.176" y="65.532" size="1.016" layer="21" font="vector" ratio="15">Thought Up, Designed &amp;
 Manufactured in USA</text>
-<text x="11.176" y="70.358" size="1.778" layer="21" font="vector" ratio="15">Electric Car Battery Meter</text>
+<text x="11.176" y="70.358" size="1.778" layer="21" font="vector" ratio="15">OKA Battery Meter</text>
 <text x="38.862" y="65.532" size="1.016" layer="21" font="vector" ratio="15">Andrew Maltsev
 Anatoly Maltsev</text>
 <text x="34.798" y="65.532" size="1.016" layer="21" font="vector" ratio="15">By:
@@ -167,9 +167,29 @@ For:</text>
 <text x="10.922" y="2.54" size="1.778" layer="21" font="vector" ratio="15" align="center">-</text>
 <wire x1="10.414" y1="65.024" x2="50.546" y2="65.024" width="0.254" layer="21"/>
 <text x="30.48" y="1.778" size="1.27" layer="22" font="vector" ratio="15" rot="MR0">7...18V</text>
-<text x="51.816" y="70.358" size="1.6764" layer="22" font="vector" ratio="15" rot="MR0">Electric Car Battery Meter</text>
+<text x="50.546" y="70.358" size="1.6764" layer="22" font="vector" ratio="15" rot="MR0">OKA Battery Meter</text>
 <text x="22.352" y="1.27" size="1.778" layer="22" font="vector" ratio="15" rot="MR0" align="center">+</text>
 <text x="10.668" y="2.54" size="1.778" layer="22" font="vector" ratio="15" rot="MR0" align="center">-</text>
+<circle x="3.81" y="69.85" radius="3.175" width="0.254" layer="22"/>
+<circle x="83.82" y="69.85" radius="3.175" width="0.254" layer="22"/>
+<circle x="83.82" y="3.81" radius="3.175" width="0.254" layer="22"/>
+<circle x="3.81" y="3.81" radius="3.175" width="0.254" layer="22"/>
+<text x="10.16" y="39.37" size="1.778" layer="22" font="vector" ratio="15" rot="MR270" align="center">BATTERIES</text>
+<text x="50.8" y="66.04" size="1.016" layer="22" font="vector" ratio="15" rot="MR0">Thought Up, Designed &amp;
+Manufactured in USA</text>
+<text x="27.94" y="66.04" size="1.016" layer="22" font="vector" ratio="15" rot="MR0">By:
+For:</text>
+<text x="24.13" y="66.04" size="1.016" layer="22" font="vector" ratio="15" rot="MR0">Andrew Maltsev
+Anatoly Maltsev</text>
+<wire x1="50.8" y1="65.405" x2="10.16" y2="65.405" width="0.254" layer="22"/>
+<text x="83.82" y="43.18" size="1.016" layer="22" font="vector" ratio="10" rot="MR0" align="center-left">1-DEM</text>
+<text x="83.82" y="45.72" size="1.016" layer="22" font="vector" ratio="10" rot="MR0" align="center-left">2-GRT</text>
+<text x="83.82" y="48.26" size="1.016" layer="22" font="vector" ratio="10" rot="MR0" align="center-left">3-FIL</text>
+<text x="83.82" y="50.8" size="1.016" layer="22" font="vector" ratio="15" rot="MR0" align="center-left">4</text>
+<text x="83.82" y="53.34" size="1.016" layer="22" font="vector" ratio="15" rot="MR0" align="center-left">5</text>
+<text x="83.82" y="55.88" size="1.016" layer="22" font="vector" ratio="15" rot="MR0" align="center-left">6</text>
+<text x="83.82" y="58.42" size="1.016" layer="22" font="vector" ratio="15" rot="MR0" align="center-left">7</text>
+<text x="83.82" y="60.96" size="1.016" layer="22" font="vector" ratio="15" rot="MR0" align="center-left">8</text>
 </plain>
 <libraries>
 <library name="ArduinoNanoV30">
@@ -2755,6 +2775,30 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <vertex x="71.755" y="5.715"/>
 <vertex x="47.625" y="5.715"/>
 <vertex x="46.355" y="6.985"/>
+</polygon>
+</signal>
+<signal name="N$4">
+<polygon width="0.254" layer="1" pour="cutout" isolate="0.381">
+<vertex x="17.78" y="20.32"/>
+<vertex x="19.05" y="21.59"/>
+<vertex x="19.05" y="62.23"/>
+<vertex x="17.78" y="63.5"/>
+<vertex x="3.81" y="63.5"/>
+<vertex x="2.54" y="62.23"/>
+<vertex x="2.54" y="21.59"/>
+<vertex x="3.81" y="20.32"/>
+</polygon>
+</signal>
+<signal name="N$5">
+<polygon width="0.254" layer="16" pour="cutout" isolate="0.381">
+<vertex x="17.78" y="20.32"/>
+<vertex x="19.05" y="21.59"/>
+<vertex x="19.05" y="62.23"/>
+<vertex x="17.78" y="63.5"/>
+<vertex x="3.81" y="63.5"/>
+<vertex x="2.54" y="62.23"/>
+<vertex x="2.54" y="21.59"/>
+<vertex x="3.81" y="20.32"/>
 </polygon>
 </signal>
 </signals>
