@@ -5945,7 +5945,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="U2" library="MAX-11632" deviceset="MAX-11632" device="QSOP24" value="MAX11632EEG+"/>
 <part name="U3" library="MAX-11632" deviceset="MAX-11632" device="QSOP24" value="MAX11632EEG+"/>
 <part name="J1" library="SparkFun-Connectors" deviceset="CONN_20X2" device="SHROUDED" value="BATTERIES"/>
-<part name="ARDUINO_NANO" library="ArduinoNanoV30" deviceset="ARDUINO_NANO" device=""/>
+<part name="ARDUINO" library="ArduinoNanoV30" deviceset="ARDUINO_NANO" device=""/>
 <part name="R1" library="SparkFun-Resistors" deviceset="RESISTOR" device="1206" value="1.5K"/>
 <part name="R2" library="SparkFun-Resistors" deviceset="RESISTOR" device="1206" value="47K"/>
 <part name="GND5" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
@@ -6028,12 +6028,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND7" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
 <part name="GND8" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
 <part name="V5V4" library="SparkFun-PowerSymbols" deviceset="VCC_1" device="" value="V5V"/>
-<part name="J3" library="SparkFun-Connectors" deviceset="CONN_05X2" device="SHD" value="LED Matrix"/>
-<part name="S1" library="SparkFun-Switches" deviceset="DIP-08" device="-PTH" value="Options"/>
+<part name="J3" library="SparkFun-Connectors" deviceset="CONN_05X2" device="SHD" value="LED MATRIX"/>
+<part name="S1" library="SparkFun-Switches" deviceset="DIP-08" device="-PTH" value="OPTIONS"/>
 <part name="GND9" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
-<part name="R65" library="SparkFun-Resistors" deviceset="RESISTOR" device="AXIAL-0.3" value=" "/>
+<part name="R65" library="SparkFun-Resistors" deviceset="RESISTOR" device="AXIAL-0.3" value="10K"/>
 <part name="GND10" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
-<part name="J2" library="SparkFun-Connectors" deviceset="CONN_02" device="" value="PHT"/>
+<part name="J2" library="SparkFun-Connectors" deviceset="CONN_02" device="" value="PHOTO"/>
 <part name="POWER" library="SparkFun-Connectors" deviceset="CONN_02" device="" value="12V"/>
 <part name="J5" library="SparkFun-Connectors" deviceset="CONN_02" device="" value="BRK5"/>
 <part name="J4" library="SparkFun-Connectors" deviceset="CONN_10X2" device="NOSILK"/>
@@ -6056,7 +6056,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="U2" gate="U1" x="96.52" y="152.4"/>
 <instance part="U3" gate="U1" x="96.52" y="99.06"/>
 <instance part="J1" gate="G$1" x="20.32" y="93.98"/>
-<instance part="ARDUINO_NANO" gate="G$1" x="177.8" y="157.48" rot="R180"/>
+<instance part="ARDUINO" gate="G$1" x="177.8" y="157.48" rot="R180"/>
 <instance part="R1" gate="G$1" x="7.62" y="33.02" rot="R270"/>
 <instance part="R2" gate="G$1" x="7.62" y="48.26" rot="R270"/>
 <instance part="GND5" gate="1" x="5.08" y="22.86"/>
@@ -6328,13 +6328,13 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <junction x="157.48" y="91.44"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="GND@2"/>
+<pinref part="ARDUINO" gate="G$1" pin="GND@2"/>
 <wire x1="157.48" y1="137.16" x2="154.94" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="154.94" y1="137.16" x2="154.94" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="GND@1"/>
+<pinref part="ARDUINO" gate="G$1" pin="GND@1"/>
 <wire x1="198.12" y1="142.24" x2="200.66" y2="142.24" width="0.1524" layer="91"/>
 <pinref part="GND4" gate="1" pin="GND"/>
 <wire x1="200.66" y1="142.24" x2="200.66" y2="129.54" width="0.1524" layer="91"/>
@@ -6433,7 +6433,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <junction x="129.54" y="147.32"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="5V"/>
+<pinref part="ARDUINO" gate="G$1" pin="5V"/>
 <wire x1="157.48" y1="142.24" x2="144.78" y2="142.24" width="0.1524" layer="91"/>
 <pinref part="V5V4" gate="G$2" pin="VCC_1"/>
 <wire x1="144.78" y1="142.24" x2="144.78" y2="144.78" width="0.1524" layer="91"/>
@@ -7411,7 +7411,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="121.92" y="111.76" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="SCK/D13"/>
+<pinref part="ARDUINO" gate="G$1" pin="SCK/D13"/>
 <wire x1="157.48" y1="170.18" x2="149.86" y2="170.18" width="0.1524" layer="91"/>
 <label x="149.86" y="170.18" size="1.778" layer="95"/>
 </segment>
@@ -7428,7 +7428,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="121.92" y="114.3" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D11/MOSI"/>
+<pinref part="ARDUINO" gate="G$1" pin="D11/MOSI"/>
 <wire x1="198.12" y1="167.64" x2="205.74" y2="167.64" width="0.1524" layer="91"/>
 <label x="203.2" y="167.64" size="1.778" layer="95"/>
 </segment>
@@ -7445,7 +7445,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="121.92" y="116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D12/MISO"/>
+<pinref part="ARDUINO" gate="G$1" pin="D12/MISO"/>
 <wire x1="198.12" y1="170.18" x2="205.74" y2="170.18" width="0.1524" layer="91"/>
 <label x="203.2" y="170.18" size="1.778" layer="95"/>
 </segment>
@@ -7457,7 +7457,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="121.92" y="162.56" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D10/OC1B/!SS"/>
+<pinref part="ARDUINO" gate="G$1" pin="D10/OC1B/!SS"/>
 <wire x1="198.12" y1="165.1" x2="205.74" y2="165.1" width="0.1524" layer="91"/>
 <label x="203.2" y="165.1" size="1.778" layer="95"/>
 </segment>
@@ -7469,7 +7469,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="121.92" y="109.22" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D9/OC1A"/>
+<pinref part="ARDUINO" gate="G$1" pin="D9/OC1A"/>
 <wire x1="198.12" y1="162.56" x2="205.74" y2="162.56" width="0.1524" layer="91"/>
 <label x="203.2" y="162.56" size="1.778" layer="95"/>
 </segment>
@@ -7486,7 +7486,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="261.62" y="170.18" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="ADC5/SCL/A5"/>
+<pinref part="ARDUINO" gate="G$1" pin="ADC5/SCL/A5"/>
 <wire x1="157.48" y1="149.86" x2="149.86" y2="149.86" width="0.1524" layer="91"/>
 <label x="149.86" y="149.86" size="1.778" layer="95"/>
 </segment>
@@ -7503,14 +7503,14 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="261.62" y="167.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="ADC4/SDA/A4"/>
+<pinref part="ARDUINO" gate="G$1" pin="ADC4/SDA/A4"/>
 <wire x1="157.48" y1="152.4" x2="149.86" y2="152.4" width="0.1524" layer="91"/>
 <label x="149.86" y="152.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DIP1" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D2/INT0"/>
+<pinref part="ARDUINO" gate="G$1" pin="D2/INT0"/>
 <wire x1="198.12" y1="144.78" x2="205.74" y2="144.78" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="144.78" x2="213.36" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="S1" gate="A" pin="16"/>
@@ -7519,7 +7519,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="DIP2" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D3/INT1"/>
+<pinref part="ARDUINO" gate="G$1" pin="D3/INT1"/>
 <wire x1="198.12" y1="147.32" x2="205.74" y2="147.32" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="147.32" x2="215.9" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="S1" gate="A" pin="15"/>
@@ -7528,7 +7528,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="DIP3" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D4/T0"/>
+<pinref part="ARDUINO" gate="G$1" pin="D4/T0"/>
 <wire x1="198.12" y1="149.86" x2="205.74" y2="149.86" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="149.86" x2="218.44" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="S1" gate="A" pin="14"/>
@@ -7537,7 +7537,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="DIP4" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D5/T1"/>
+<pinref part="ARDUINO" gate="G$1" pin="D5/T1"/>
 <wire x1="198.12" y1="152.4" x2="205.74" y2="152.4" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="152.4" x2="220.98" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="S1" gate="A" pin="13"/>
@@ -7546,7 +7546,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="DIP5" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D6/AIN0"/>
+<pinref part="ARDUINO" gate="G$1" pin="D6/AIN0"/>
 <wire x1="198.12" y1="154.94" x2="205.74" y2="154.94" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="154.94" x2="223.52" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="S1" gate="A" pin="12"/>
@@ -7555,7 +7555,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="DIP6" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D7/AIN1"/>
+<pinref part="ARDUINO" gate="G$1" pin="D7/AIN1"/>
 <wire x1="198.12" y1="157.48" x2="205.74" y2="157.48" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="157.48" x2="226.06" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="S1" gate="A" pin="11"/>
@@ -7564,7 +7564,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="DIP7" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D8/CLK0"/>
+<pinref part="ARDUINO" gate="G$1" pin="D8/CLK0"/>
 <wire x1="198.12" y1="160.02" x2="205.74" y2="160.02" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="160.02" x2="228.6" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="S1" gate="A" pin="10"/>
@@ -7611,7 +7611,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="121.92" y="157.48" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="ADC0/A0"/>
+<pinref part="ARDUINO" gate="G$1" pin="ADC0/A0"/>
 <wire x1="157.48" y1="162.56" x2="149.86" y2="162.56" width="0.1524" layer="91"/>
 <label x="149.86" y="162.56" size="1.778" layer="95"/>
 </segment>
@@ -7623,14 +7623,14 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="121.92" y="104.14" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="ADC1/A1"/>
+<pinref part="ARDUINO" gate="G$1" pin="ADC1/A1"/>
 <wire x1="157.48" y1="160.02" x2="149.86" y2="160.02" width="0.1524" layer="91"/>
 <label x="149.86" y="160.02" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DIP8" class="0">
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="ADC7/A7"/>
+<pinref part="ARDUINO" gate="G$1" pin="ADC7/A7"/>
 <wire x1="157.48" y1="144.78" x2="149.86" y2="144.78" width="0.1524" layer="91"/>
 <label x="149.86" y="144.78" size="1.778" layer="95"/>
 </segment>
