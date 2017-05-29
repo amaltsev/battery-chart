@@ -108,7 +108,7 @@ void calibrate() {
   for(uint8_t c=0; c<31; c++) {
     int pin_cs=c<16 ? PIN_CHIP_SELECT_0 : PIN_CHIP_SELECT_1;
     int pin_ec=c<16 ? PIN_END_OF_CONVERSION_0 : PIN_END_OF_CONVERSION_1;
-    int16_t voltage=max11632_read(c & 0x0f0, pin_cs, pin_ec, REFERENCE_VOLTAGE);    
+    int16_t voltage=max11632_read(c & 0x0f, pin_cs, pin_ec, REFERENCE_VOLTAGE);    
     Serial.print(c,HEX); Serial.print(":"); Serial.print(voltage);Serial.print(" ");
   }
 
