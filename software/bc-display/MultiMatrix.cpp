@@ -22,7 +22,6 @@ void MultiMatrix::setup() {
     //
     mx[i].setRotation(0);
   }
-  Serial.println("");
 }
 
 void MultiMatrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
@@ -84,10 +83,13 @@ void MultiMatrix::setBrightness(uint8_t brightness) {
 
 void MultiMatrix::writeDisplay() {
   uint8_t bit=1;
+  
   for(uint8_t i=0; i<mxnum; ++i, bit<<=1) {
     if(dirty & bit)
       mx[i].writeDisplay();
   }
+  
+  dirty=0;
 }
 
 void MultiMatrix::markDirty(uint8_t i) {
