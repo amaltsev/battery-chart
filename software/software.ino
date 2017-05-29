@@ -1,20 +1,41 @@
 #include "MultiMatrix.h"
+#include "Voltage.h"
 
-#define DEBUG 1
+bool debug=true;
 
-// My matrices are wired with 0x70 on the right
+// TODO: Move to options
+//
+bool optshowintro=false;
+
+// My matrices are wired with 0x70 on the right in the normal
+// connector-top orientation. Listing them backwards here.
 //
 MultiMatrix matrix = MultiMatrix(4,(uint8_t[]){0x73,0x72,0x71,0x70});
 
 void setup() {
-  if(DEBUG) Serial.begin(9600);
-  
+  if(debug) Serial.begin(9600);
+
+  // LED matrix setup
   matrix.setup();
   matrix.setBrightness(3);
   matrix.setRotation(3);
+
+  // Voltage reading setup
+  //
+  max11632_setup(PIN_CHIP_SELECT_0,PIN_END_OF_CONVERSION_0);
+  max11632_setup(PIN_CHIP_SELECT_1,PIN_END_OF_CONVERSION_1);
 }
 
 void loop() {
+  if(optshowintro)
+    intro();
+
+  calibrate();
+  
+  delay(1000);
+}
+
+void intro() {
   for(uint8_t r=0; r<4; ++r) {
     matrix.setRotation(r);
     
@@ -72,3 +93,25 @@ void loop() {
     delay(1000);
   }
 }
+
+// Voltage calibration output. I connected all 32 inputs to the same 5V source and read values
+// as divider by 1.5K/45K dividers. Each and every read is identical, so no calibration is
+// actually needed.
+//
+// The value read is 0.153 consistently over about a hundred runs at room temperature.
+//
+// The theoretical value should have been 0.154 = 4.98 * 1.5 / (1.5 + 47), but consistency
+// is more important than the actual value, so letting it be. Besides, it's entirely possible
+// that the input value is not actually 4.98 as measured by my multimeter.
+//
+void calibrate() {
+  for(uint8_t c=0; c<31; c++) {
+    int pin_cs=c<16 ? PIN_CHIP_SELECT_0 : PIN_CHIP_SELECT_1;
+    int pin_ec=c<16 ? PIN_END_OF_CONVERSION_0 : PIN_END_OF_CONVERSION_1;
+    int16_t voltage=max11632_read(c & 0x0f0, pin_cs, pin_ec, REFERENCE_VOLTAGE);    
+    Serial.print(c,HEX); Serial.print(":"); Serial.print(voltage);Serial.print(" ");
+  }
+
+  Serial.println("");
+}
+

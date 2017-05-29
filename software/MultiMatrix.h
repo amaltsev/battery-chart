@@ -2,6 +2,9 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_LEDBackpack.h>
 
+#ifndef Oka_MultiMatrix_h
+#define Oka_MultiMatrix_h
+
 // Multiplexor for displaying arbritrary graphics on multiple
 // side-by-side 8x16 LED matrices.
 //
@@ -41,3 +44,5 @@ class MultiMatrix : public Adafruit_GFX {
 
     void markDirty(uint8_t n);
 };
+
+#endif // Oka_MultiMatrix_h
