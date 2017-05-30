@@ -41,9 +41,9 @@ const uint8_t LED_MATRIX_IDS[4]   = {0x73,0x72,0x71,0x70};
 // Debug options (Serial output)
 //
 const bool DEBUG_ANY              = false;
-const bool DEBUG_VOLTAGE          = false && DEBUG_ANY;
+const bool DEBUG_VOLTAGE          = true && DEBUG_ANY;
 const bool DEBUG_OPTIONS          = false && DEBUG_ANY;
-const bool DEBUG_DISPLAY          = true && DEBUG_ANY;
+const bool DEBUG_DISPLAY          = false && DEBUG_ANY;
 
 // DIP Switch options
 //
