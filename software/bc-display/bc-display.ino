@@ -3,6 +3,7 @@
 //#include <Fonts/FreeSans9pt7b.h>
 
 #include "Config.h"
+#include "Options.h"
 #include "MultiMatrix.h"
 #include "Voltage.h"
 
@@ -22,6 +23,10 @@ MultiMatrix matrix = MultiMatrix(4,(uint8_t[]){0x73,0x72,0x71,0x70});
 VoltageBoard vboard;
 // VoltageDemo  vdemo;
 
+// Options switches
+//
+Options opts;
+
 void setup() {
   if(debug) Serial.begin(9600);
 
@@ -34,10 +39,22 @@ void setup() {
   //
   max11632_setup(PIN_CHIP_SELECT_0,PIN_END_OF_CONVERSION_0);
   max11632_setup(PIN_CHIP_SELECT_1,PIN_END_OF_CONVERSION_1);
+
+  // Options reader
+  //
+  opts.setup();
 }
 
 void loop() {
-  if(optshowintro)
+  opts.update();
+
+  // Screen rotation
+  //
+  matrix.setRotation(opts.rotateScreen ? 3 : 1);
+
+  // Flash screen greeting
+  //
+  if(opts.showGreeting && optshowintro)
     intro();
 
   // calibrate();
@@ -74,7 +91,7 @@ void intro() {
   matrix.clear();
   matrix.writeDisplay();
  
-  optshowintro=false;
+//  optshowintro=false;
 }
 
 //void testMatrix() {

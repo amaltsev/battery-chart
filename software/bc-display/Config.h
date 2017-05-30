@@ -14,6 +14,15 @@ const int PIN_END_OF_CONVERSION_0 = A0;     // MAX-11632 #0 EOC
 const int PIN_CHIP_SELECT_1       = 9;      // MAX-11632 #1 select
 const int PIN_END_OF_CONVERSION_1 = A1;     // MAX-11632 #1 EOC
 
+const int PIN_OPT_1_DEMO_MODE     = 2;
+const int PIN_OPT_2_GREETING      = 3;
+const int PIN_OPT_3_FILL_CHART    = 4;
+const int PIN_OPT_4_ROTATE        = 5;
+const int PIN_OPT_5               = 6;
+const int PIN_OPT_6               = 7;
+const int PIN_OPT_7               = 8;
+const int PIN_OPT_8               = A7;
+
 extern bool debug;
 
 #endif // Oka_Config_h
