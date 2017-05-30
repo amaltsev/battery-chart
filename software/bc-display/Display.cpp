@@ -39,6 +39,8 @@ void Display::setup() {
   matrix.clear();
   matrix.writeDisplay();
 
+  // Voltage warnings recalculated into pixels
+  //
   pxWarn1=pixelValue(CHART_VOLT_WARN1,CHART_VOLT_MIN,CHART_VOLT_MAX);
   pxWarn2=pixelValue(CHART_VOLT_WARN2,CHART_VOLT_MIN,CHART_VOLT_MAX);
 }
@@ -76,6 +78,11 @@ void Display::loop(Voltage &vdata) {
 void Display::chart(Voltage &vdata) {
   matrix.clear();
   
+  bool w1Line=false;
+  bool w2Line=false;
+  bool w1Total=false;
+  bool w2Total=false;
+    
   for(uint8_t i=vdata.getChannelFirst(); i<=vdata.getChannelLast(); ++i) {
     float volts=vdata.getLine(i);
 
@@ -85,15 +92,34 @@ void Display::chart(Voltage &vdata) {
     uint8_t vpix=pixelValue(volts,CHART_VOLT_MIN,CHART_VOLT_MAX);
 
     drawColumn(i,vpix);
+
+    if(vpix<=pxWarn1) w1Line=true;
+    if(vpix<=pxWarn2) w2Line=true;
   }
   
   // If the rightmost columns are empty (they normally are) -- showing
   // the total in their place.
   //
-  if(vdata.getChannelLast() < 30) {
+  if(vdata.getChannelLast() < VCHANNELS-2) {
     uint8_t active=vdata.getActiveCount();
+    
     uint8_t vpix=pixelValue(vdata.getTotal(),CHART_VOLT_MIN * active, CHART_VOLT_MAX * active);
-    drawColumn(31,vpix);
+    
+    drawColumn(VCHANNELS-1,vpix);
+
+    if(vpix<=pxWarn1) w1Total=true;
+    if(vpix<=pxWarn2) w2Total=true;
+  }
+
+  // If low voltage showing a blinking indicator of that. One
+  // in the total column and one to the right of the line columns.
+  //
+  if(opts.blinkLow) {
+    if(w1Line || w2Line)
+      drawWarning(vdata.getChannelLast(),w1Line,w2Line);
+
+    if(w1Total || w2Total)
+      drawWarning(VCHANNELS-1,w1Total,w2Total);
   }
 
   matrix.writeDisplay();
@@ -108,18 +134,17 @@ void Display::drawColumn(uint8_t column, uint8_t value) {
     if(opts.drawBottom)
       matrix.drawPixel(column,15,LED_ON);
   }
+}
 
-  // With the whole column blinking the display
-  // becomes unreadable, so blinking just the bottom pixel.
-  //
-  bool blink=
-    opts.blinkLow && (
-      (value<=pxWarn2 && (blinkPhase & 1)==0) ||
-      (value<=pxWarn1 && (blinkPhase & 7)==0)
-    );
-
-  if(blink)
-    matrix.drawPixel(column,15,LED_OFF);
+void Display::drawWarning(uint8_t column, bool w1, bool w2) {  
+  bool draw=w2 ? (blinkPhase & 1)==0 : (blinkPhase & 2)==0;
+  
+  if(draw) {  
+    matrix.fillRect(column-1,0,3,5,LED_OFF);
+    matrix.drawPixel(column,0,LED_ON);
+    matrix.drawPixel(column,1,LED_ON);
+    matrix.drawPixel(column,3,LED_ON);
+  }
 }
 
 void Display::greeting() {

@@ -19,6 +19,7 @@ class Display {
     void chart(Voltage &vdata);
     void greeting();
     void drawColumn(uint8_t n, uint8_t v);
+    void drawWarning(uint8_t x, bool w1, bool w2);
     
     MultiMatrix matrix=MultiMatrix(4,LED_MATRIX_IDS);
     bool greetingShown=false;

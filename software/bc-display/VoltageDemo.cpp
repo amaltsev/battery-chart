@@ -54,7 +54,7 @@ void VoltageDemo::measureAll() {
         if(volts[i]==0)
           volts[i]=CHART_VOLT_MIN - 0.1;
         else
-          volts[i]+=random(20,100)/1000.0;
+          volts[i]+=random(10,100)/1000.0;
           
         haveWork=true;
       }
@@ -71,7 +71,7 @@ void VoltageDemo::measureAll() {
 
     for(uint8_t i=0; i<DEMOCHAN; ++i) {
       if(volts[i]>CHART_VOLT_MAX/2) {
-        volts[i]-=random(3,75)/1000.0;
+        volts[i]-=random(0,45)/1000.0;
         haveWork=true;
       }
     }
