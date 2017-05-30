@@ -55,7 +55,7 @@ class Voltage {
     // Debug dump of the read values
     //
     void dump() {
-      if(!debug) return;
+      if(!DEBUG_VOLTAGE) return;
       Serial << "Active: " << getActiveCount() << "/" << getChannelFirst() << "/" << getChannelLast() << " ";
       Serial << "Total: " << getTotal() << " - ";
       for(uint8_t c=0; c<31; c++) {

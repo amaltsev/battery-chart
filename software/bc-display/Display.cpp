@@ -1,18 +1,11 @@
 #include "Config.h"
 #include "Display.h"
 
-Display::Display() {
+static uint8_t pxWarn1;
+static uint8_t pxWarn2;
 
-}
-
-void Display::setup() {
-  matrix.setup();
-  matrix.setBrightness(0);
-  matrix.setRotation(1);
-  matrix.clear();
-  matrix.writeDisplay();
-}
-
+// Voltage into chart pixel Y coordinate
+//
 static uint8_t pixelValue(float volts, float vmin, float vmax) { 
   uint8_t pix;
   if(volts < vmin)
@@ -24,7 +17,7 @@ static uint8_t pixelValue(float volts, float vmin, float vmax) {
     pix=(uint8_t)(t + 0.5);
   }
 
-//  if(debug) {
+//  if(DEBUG_DISPLAY) {
 //    Serial.print("V2P("); Serial.print(volts); Serial.print(","); Serial.print(vmin); Serial.print(","); Serial.print(vmax);
 //    Serial.print("="); Serial.println(pix);
 //  }
@@ -32,6 +25,26 @@ static uint8_t pixelValue(float volts, float vmin, float vmax) {
   return pix;
 }
 
+// Constructor
+Display::Display() {
+
+}
+
+// Setup
+//
+void Display::setup() {
+  matrix.setup();
+  matrix.setBrightness(0);
+  matrix.setRotation(1);
+  matrix.clear();
+  matrix.writeDisplay();
+
+  pxWarn1=pixelValue(CHART_VOLT_WARN1,CHART_VOLT_MIN,CHART_VOLT_MAX);
+  pxWarn2=pixelValue(CHART_VOLT_WARN2,CHART_VOLT_MIN,CHART_VOLT_MAX);
+}
+
+// Loop (both chart and intro)
+//
 void Display::loop(Voltage &vdata) {
 
   // Greeting if this the first run
@@ -49,11 +62,17 @@ void Display::loop(Voltage &vdata) {
   //
   ///// FIXME
 
+  // Blink phase, just counting here, analyzing when blinking.
+  //
+  ++blinkPhase;
+  
   // Chart
   //
   chart(vdata);
 }
 
+// Chart display
+//
 void Display::chart(Voltage &vdata) {
   matrix.clear();
   
@@ -89,6 +108,18 @@ void Display::drawColumn(uint8_t column, uint8_t value) {
     if(opts.drawBottom)
       matrix.drawPixel(column,15,LED_ON);
   }
+
+  // With the whole column blinking the display
+  // becomes unreadable, so blinking just the bottom pixel.
+  //
+  bool blink=
+    opts.blinkLow && (
+      (value<=pxWarn2 && (blinkPhase & 1)==0) ||
+      (value<=pxWarn1 && (blinkPhase & 7)==0)
+    );
+
+  if(blink)
+    matrix.drawPixel(column,15,LED_OFF);
 }
 
 void Display::greeting() {

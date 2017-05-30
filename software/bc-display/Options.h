@@ -26,6 +26,10 @@ class Options {
     // Switch 4=ON: Rotate screen connector down
     //
     bool rotateScreen=false;
+
+    // Blink when low
+    //
+    bool blinkLow=false;
 };
 
 #endif // Oka_Options_h

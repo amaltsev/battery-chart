@@ -3,25 +3,13 @@
 #include "Display.h"
 #include "Voltage.h"
 
-// Globally visible debug flag.
-//
-bool debug=true;
-
-// Voltage meters
-//
-VoltageBoard vboard;
-VoltageDemo  vdemo;
-
-// Options switches
-//
-Options opts;
-
-// Display chart
-//
-Display display;
+VoltageBoard vboard;    // Real voltage meter
+VoltageDemo  vdemo;     // Demo voltage meter
+Options opts;           // Options DIP switch
+Display display;        // Display controller
 
 void setup() {
-  if(debug)
+  if(DEBUG_ANY)
     Serial.begin(9600);
 
   // Randomizing with noise from an unconnected pin
@@ -50,7 +38,7 @@ void loop() {
 
   display.loop(vdata);
   
-  delay(500);
+  delay(UPDATE_INTERVAL_MS);
 }
 
 // Voltage calibration output. I connected all 32 inputs to the same 5V source and read values

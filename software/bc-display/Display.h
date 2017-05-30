@@ -22,6 +22,7 @@ class Display {
     
     MultiMatrix matrix=MultiMatrix(4,LED_MATRIX_IDS);
     bool greetingShown=false;
+    uint8_t blinkPhase=0;
 };
 
 #endif // Oka_Display_h

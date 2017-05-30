@@ -53,12 +53,12 @@ void VoltageBoard::measureAll() {
     if(voltage>=0)
       input[c]=voltage;
 
-    if(debug && voltage>0) {
+    if(DEBUG_VOLTAGE && voltage>0) {
       Serial.print(c); Serial.print(":"); Serial.print(voltage); Serial.print(" ");
     } 
   }
 
-  if(debug) Serial.println("");
+  if(DEBUG_VOLTAGE) Serial.println("");
 
   // Some inputs may be unconnected and will read zero (because they have
   // 1.5K resistors to the ground). Just in case there is some noise, value

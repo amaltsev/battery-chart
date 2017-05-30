@@ -13,7 +13,7 @@ void VoltageDemo::setup() {
 // Generate test values
 //
 void VoltageDemo::measureAll() {
-//  if(debug) {
+//  if(DEBUG_VOLTAGE) {
 //    Serial << "--- Phase=" << phase << " step=" << step << "\n";
 //  }
 

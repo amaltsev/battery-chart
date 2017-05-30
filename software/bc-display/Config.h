@@ -14,6 +14,8 @@ const float CHART_VOLT_MAX        = 4.3;    // Maximum LiON voltage (also min + 
 const float CHART_VOLT_WARN1      = 3.2;    // Almost dead
 const float CHART_VOLT_WARN2      = 3.0;    // Dead, time to turn off
 
+const int UPDATE_INTERVAL_MS      = 500;    // Loop update interval
+
 const int PIN_CHIP_SELECT_0       = 10;     // MAX-11632 #0 select
 const int PIN_END_OF_CONVERSION_0 = A0;     // MAX-11632 #0 EOC
 
@@ -25,7 +27,7 @@ const int PIN_OPT_2_GREETING      = 3;
 const int PIN_OPT_3_FILL_CHART    = 4;
 const int PIN_OPT_4_ROTATE        = 5;
 const int PIN_OPT_5_DRAW_BOTTOM   = 6;
-const int PIN_OPT_6               = 7;
+const int PIN_OPT_6_BLINK_LOW     = 7;
 const int PIN_OPT_7               = 8;
 const int PIN_OPT_8               = A7;
 
@@ -36,7 +38,15 @@ const int PIN_OPT_8               = A7;
 //
 const uint8_t LED_MATRIX_IDS[4]   = {0x73,0x72,0x71,0x70};
 
-extern bool debug;
+// Debug options (Serial output)
+//
+const bool DEBUG_ANY              = false;
+const bool DEBUG_VOLTAGE          = false && DEBUG_ANY;
+const bool DEBUG_OPTIONS          = true && DEBUG_ANY;
+const bool DEBUG_DISPLAY          = true && DEBUG_ANY;
+
+// DIP Switch options
+//
 extern Options opts;
 
 // Streaming serial output from: https://playground.arduino.cc/Main/StreamingOutput
