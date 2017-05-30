@@ -21,14 +21,14 @@ void Options::update() {
   drawBottom=   digitalRead(PIN_OPT_5_DRAW_BOTTOM)==LOW;
   
 
-  if(debug) {
-    Serial.print("Options: ");
-    Serial.print("1.demo=");  Serial.print(demoMode);     Serial.print(" ");
-    Serial.print("2.greet="); Serial.print(showGreeting); Serial.print(" ");
-    Serial.print("3.fill=");  Serial.print(fillChart);    Serial.print(" ");
-    Serial.print("4.rot=");   Serial.print(rotateScreen); Serial.print(" ");
-    Serial.print("5.btm=");   Serial.print(drawBottom);   Serial.print(" ");
-    Serial.println("");
-  }
+//  if(debug) {
+//    Serial.print("Options: ");
+//    Serial.print("1.demo=");  Serial.print(demoMode);     Serial.print(" ");
+//    Serial.print("2.greet="); Serial.print(showGreeting); Serial.print(" ");
+//    Serial.print("3.fill=");  Serial.print(fillChart);    Serial.print(" ");
+//    Serial.print("4.rot=");   Serial.print(rotateScreen); Serial.print(" ");
+//    Serial.print("5.btm=");   Serial.print(drawBottom);   Serial.print(" ");
+//    Serial.println("");
+//  }
 }
 

@@ -10,7 +10,7 @@ bool debug=true;
 // Voltage meters
 //
 VoltageBoard vboard;
-// VoltageDemo  vdemo;
+VoltageDemo  vdemo;
 
 // Options switches
 //
@@ -21,11 +21,18 @@ Options opts;
 Display display;
 
 void setup() {
-  if(debug) Serial.begin(9600);
+  if(debug)
+    Serial.begin(9600);
+
+  // Randomizing with noise from an unconnected pin
+  //
+  randomSeed(analogRead(A6));
 
   display.setup();
 
   vboard.setup();
+  
+  vdemo.setup();
 
   opts.setup();
 }
@@ -33,95 +40,18 @@ void setup() {
 void loop() {
   opts.update();
 
-//  // Screen rotation
-//  //
-//  matrix.setRotation(opts.rotateScreen ? 3 : 1);
-
-//  // Flash screen greeting
-//  //
-//  if(opts.showGreeting && optshowintro)
-//    intro();
-
   // calibrate();
 
-  vboard.measureAll();
+  Voltage &vdata=opts.demoMode ? (Voltage&)vdemo : (Voltage&)vboard;
 
-  Serial.print("Tot: "); Serial.print(vboard.getTotal()); Serial.print(" - ");
+  vdata.measureAll();
+
+  vdata.dump();
+
+  display.loop(vdata);
   
-  for(uint8_t c=0; c<31; c++) {
-    float v=vboard.getLine(c);
-    if(v) {
-      Serial.print(c); Serial.print("="); Serial.print(v);Serial.print(" ");
-    }
-  }
-
-  Serial.println("");
-
-  display.loop(vboard);
-  
-  delay(10000);
+  delay(500);
 }
-
-
-
-//void testMatrix() {
-//  for(uint8_t r=0; r<4; ++r) {
-//    matrix.setRotation(r);
-//    
-//    matrix.clear();
-//    matrix.drawPixel(0,0,LED_ON);
-//    matrix.drawPixel(0,3,LED_ON);
-//    matrix.drawPixel(2,0,LED_ON);
-//    matrix.drawPixel(31,15,LED_ON);
-//    
-//  //  matrix.setTextSize(1);
-//  //  matrix.setTextWrap(false);
-//  //  matrix.setTextColor(LED_ON);
-//  //  matrix.setCursor(0,6);
-//  //  matrix.print("Hello World");
-//  
-//    matrix.writeDisplay();
-//  
-//    delay(1000);
-//  
-//    for(int i=0; i<32; i++) {
-//      matrix.clear();
-//      matrix.drawLine(0,0,i,15,LED_ON);
-//      matrix.writeDisplay();
-//      delay(100);
-//    }
-//    
-//    matrix.clear();
-//    matrix.drawLine(0,0, 31,15, LED_ON);
-//    matrix.writeDisplay();
-//    delay(1000);
-//  
-//    matrix.clear();
-//    matrix.drawRect(0,0, 31,15, LED_ON);
-//    matrix.fillRect(2,2, 4,4, LED_ON);
-//    matrix.writeDisplay();
-//    delay(1000);
-//  
-//    matrix.clear();
-//    matrix.drawCircle(10,8, 5, LED_ON);
-//    matrix.writeDisplay();
-//    delay(1000);
-//  
-//    matrix.setTextSize(2);
-//    matrix.setTextWrap(false);
-//    matrix.setTextColor(LED_ON);
-//  
-//    for (int16_t x=32; x>=-210; --x) {
-//      matrix.clear();
-//      matrix.setCursor(x,0);
-//      matrix.print("OKA Battery Meter");
-//      matrix.writeDisplay();
-//      delay(25);
-//    }
-//  
-//    delay(1000);
-//  }
-//}
 
 // Voltage calibration output. I connected all 32 inputs to the same 5V source and read values
 // as divider by 1.5K/45K dividers. Each and every read is identical, so no calibration is
@@ -143,4 +73,3 @@ static void calibrate() {
 
   Serial.println("");
 }
-

@@ -39,4 +39,8 @@ const uint8_t LED_MATRIX_IDS[4]   = {0x73,0x72,0x71,0x70};
 extern bool debug;
 extern Options opts;
 
+// Streaming serial output from: https://playground.arduino.cc/Main/StreamingOutput
+//
+template<class T> inline Print &operator <<(Print &obj, T arg) { obj.print(arg); return obj; } 
+
 #endif // Oka_Config_h
