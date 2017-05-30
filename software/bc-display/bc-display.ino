@@ -1,22 +1,11 @@
-#include <Adafruit_GFX.h>
-//#include <gfxfont.h>
-//#include <Fonts/FreeSans9pt7b.h>
-
 #include "Config.h"
 #include "Options.h"
-#include "MultiMatrix.h"
+#include "Display.h"
 #include "Voltage.h"
 
+// Globally visible debug flag.
+//
 bool debug=true;
-
-// TODO: Move to options
-//
-bool optshowintro=true;
-
-// My matrices are wired with 0x70 on the right in the normal
-// connector-top orientation. Listing them backwards here.
-//
-MultiMatrix matrix = MultiMatrix(4,(uint8_t[]){0x73,0x72,0x71,0x70});
 
 // Voltage meters
 //
@@ -27,35 +16,31 @@ VoltageBoard vboard;
 //
 Options opts;
 
+// Display chart
+//
+Display display;
+
 void setup() {
   if(debug) Serial.begin(9600);
 
-  // LED matrix setup
-  matrix.setup();
-  matrix.setBrightness(3);
-  matrix.setRotation(1);
+  display.setup();
 
-  // Voltage reading setup
-  //
-  max11632_setup(PIN_CHIP_SELECT_0,PIN_END_OF_CONVERSION_0);
-  max11632_setup(PIN_CHIP_SELECT_1,PIN_END_OF_CONVERSION_1);
+  vboard.setup();
 
-  // Options reader
-  //
   opts.setup();
 }
 
 void loop() {
   opts.update();
 
-  // Screen rotation
-  //
-  matrix.setRotation(opts.rotateScreen ? 3 : 1);
+//  // Screen rotation
+//  //
+//  matrix.setRotation(opts.rotateScreen ? 3 : 1);
 
-  // Flash screen greeting
-  //
-  if(opts.showGreeting && optshowintro)
-    intro();
+//  // Flash screen greeting
+//  //
+//  if(opts.showGreeting && optshowintro)
+//    intro();
 
   // calibrate();
 
@@ -71,28 +56,13 @@ void loop() {
   }
 
   Serial.println("");
+
+  display.loop(vboard);
   
-  delay(5000);
+  delay(10000);
 }
 
-void intro() {
-  matrix.clear();
-//  matrix.setFont(&FreeSans9pt7b);
-  matrix.setTextSize(1);
-  matrix.setTextWrap(false);
-  matrix.setTextColor(LED_ON);
-  matrix.setCursor(8,0);
-  matrix.print("OKA");
-  matrix.setCursor(0,8);
-  matrix.print("ELECTRO");
-  matrix.writeDisplay();
-  delay(1000);
-  
-  matrix.clear();
-  matrix.writeDisplay();
- 
-//  optshowintro=false;
-}
+
 
 //void testMatrix() {
 //  for(uint8_t r=0; r<4; ++r) {

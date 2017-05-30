@@ -7,7 +7,13 @@ const uint8_t VCHANNELS = 32;
 //
 class Voltage {
   public:
-    Voltage();
+    Voltage() {
+      memset(volts,0,sizeof(volts));
+    };
+
+    // Initial setup
+    //
+    virtual void setup()=0;
     
     // Measure and remember all channels.
     //
@@ -15,31 +21,63 @@ class Voltage {
 
     // Calculated voltage for any given line, in volts.
     //
-    virtual float getLine(uint8_t c)=0;
+    float getLine(uint8_t c) {
+      return c<VCHANNELS ? volts[c] : -1;
+    }
 
     // Grand total voltage across all lines, in volts.
     //
-    virtual float getTotal()=0;
+    float getTotal() {
+      return total;
+    }
+
+    // Get the index of the first active channel number.
+    //
+    uint8_t getChannelFirst() {
+      return cFirst;
+    }
+
+    // Get the index of the last active channel number.
+    //
+    uint8_t getChannelLast() {
+      return cLast;
+    }
+
+    // Get the count of active channels (how many banks we're actually
+    // measuring, even if there are gaps and disconnects).
+    //
+    uint8_t getActiveCount() {
+      return nActive;
+    }
 
   protected:
-    int16_t input[VCHANNELS];
     float volts[VCHANNELS];
-    float total;
+    float total=0;
+    uint8_t cFirst=VCHANNELS;
+    uint8_t cLast=VCHANNELS;
+    uint8_t nActive=0;
 };
 
 // Demo (randomized) voltage readings
 //
 class VoltageDemo : public Voltage {
-  
+  public:
+    virtual void setup();
+    virtual void measureAll();
 };
 
 // Real readings from MAX-11632 chips and resistor dividers.
 //
 class VoltageBoard : public Voltage {
   public:
-    void measureAll();
-    float getLine(uint8_t c);
-    float getTotal();
+    VoltageBoard() {
+      memset(volts,0,sizeof(volts));
+    };
+
+    virtual void setup();
+    virtual void measureAll();
+  private:
+    int16_t input[VCHANNELS];
 };
 
 void max11632_setup(int pin_chip_select, int pin_eoc);

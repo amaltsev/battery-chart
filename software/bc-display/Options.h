@@ -6,20 +6,25 @@ class Options {
     void setup();
     void update();
     
-    /** Switch 1=ON: Run in demo mode, not reading any actual data.
-     */
+    // Switch 1=ON: Run in demo mode, not reading any actual data.
+    //
     bool demoMode=false;
 
-    /** Switch 2=ON: Skip flash screen.
-     */
+    // Switch 2=ON: Skip flash screen.
+    //
     bool showGreeting=false;
 
-    /** Switch 3=ON: Fill chart lines (default is to leave them open).
-     */
+    // Switch 3=ON: Fill chart lines (default is to leave them open).
+    //
     bool fillChart=false;
 
-    /** Switch 4=ON: Rotate screen connector down
-     */
+    // Draw a pixel at the bottom? Might help in the dark
+    // when there is no fill chart.
+    //
+    bool drawBottom=false;
+
+    // Switch 4=ON: Rotate screen connector down
+    //
     bool rotateScreen=false;
 };
 

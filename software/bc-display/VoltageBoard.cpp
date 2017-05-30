@@ -13,12 +13,19 @@ static float calculateVolts(float mv, float mvbase) {
   return (mv-mvbase) * (RESISTOR_UPPER + RESISTOR_LOWER) / RESISTOR_LOWER / 1000;
 }
 
-// Initialization
+//// Initialization
+////
+//VoltageBoard::Voltage() {
+//  memset(input,0,sizeof(input));
+//  memset(volts,0,sizeof(volts));
+//  total=0;
+//}
+
+// Voltage reading setup
 //
-Voltage::Voltage() {
-  memset(input,0,sizeof(input));
-  memset(volts,0,sizeof(volts));
-  total=0;
+void VoltageBoard::setup() {  
+  max11632_setup(PIN_CHIP_SELECT_0,PIN_END_OF_CONVERSION_0);
+  max11632_setup(PIN_CHIP_SELECT_1,PIN_END_OF_CONVERSION_1);
 }
 
 // Reading and analyzing all channels
@@ -46,12 +53,12 @@ void VoltageBoard::measureAll() {
     if(voltage>=0)
       input[c]=voltage;
 
-    if(voltage>0) {
+    if(debug && voltage>0) {
       Serial.print(c); Serial.print(":"); Serial.print(voltage); Serial.print(" ");
     } 
   }
 
-  Serial.println("");
+  if(debug) Serial.println("");
 
   // Some inputs may be unconnected and will read zero (because they have
   // 1.5K resistors to the ground). Just in case there is some noise, value
@@ -121,15 +128,16 @@ void VoltageBoard::measureAll() {
     for(uint8_t c=0; c<VCHANNELS; c++) {
       while(volts[c]>5) {
         volts[c]-=avg;
+        ++active;
       }
     }
   }
-}
 
-float VoltageBoard::getLine(uint8_t channel) {
-  return channel<VCHANNELS ? volts[channel] : -1;
-}
-
-float VoltageBoard::getTotal() {
-  return total;
+  // Stats for charting
+  //
+  nActive=active;
+  cFirst=0;
+  while(cFirst<VCHANNELS && volts[cFirst]==0) ++cFirst;
+  cLast=VCHANNELS-1;
+  while(cLast>0 && volts[cLast]==0) --cLast;
 }
