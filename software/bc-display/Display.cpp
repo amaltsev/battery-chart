@@ -1,6 +1,9 @@
 #include "Config.h"
 #include "Display.h"
 
+static const int ANIMATION_DELAY=10;
+static const int TEXT_VIEW_STEPS=1000/ANIMATION_DELAY;
+
 static uint8_t pxWarn1;
 static uint8_t pxWarn2;
 
@@ -49,13 +52,6 @@ void Display::setup() {
 //
 void Display::loop(Voltage &vdata) {
 
-  // Greeting if this the first run
-  //
-  if(!greetingShown) {
-    greetingShown=true;
-    greeting();
-  }
-
   // Rotation
   //
   matrix.setRotation(opts.rotateScreen ? 3 : 1);
@@ -68,6 +64,23 @@ void Display::loop(Voltage &vdata) {
   //
   ++blinkPhase;
   
+  // Greeting if this the first run
+  //
+  if(!greetingShown) {
+    greetingShown=true;
+    greeting();
+
+    // Growing the chart into view for a nice effect
+    //
+    for(uint8_t cap=0; cap<16; ++cap) {
+      pixelCap=cap;
+      chart(vdata);
+      delay(ANIMATION_DELAY);
+    }
+
+    pixelCap=255;
+  }
+
   // Chart
   //
   chart(vdata);
@@ -114,7 +127,7 @@ void Display::chart(Voltage &vdata) {
   // If low voltage showing a blinking indicator of that. One
   // in the total column and one to the right of the line columns.
   //
-  if(opts.blinkLow) {
+  if(opts.blinkLow && pixelCap>15) {
     if(w1Line || w2Line)
       drawWarning(vdata.getChannelLast(),w1Line,w2Line);
 
@@ -126,6 +139,9 @@ void Display::chart(Voltage &vdata) {
 }
 
 void Display::drawColumn(uint8_t column, uint8_t value) {
+  if(value>pixelCap)
+    value=pixelCap;
+    
   if(opts.fillChart) {
     matrix.drawLine(column,15,column,15-value,LED_ON);
   }
@@ -150,18 +166,47 @@ void Display::drawWarning(uint8_t column, bool w1, bool w2) {
 void Display::greeting() {
   if(!opts.showGreeting)
     return;
+
+  // First dots growing into lines
+  //
+  for(uint8_t i=0; i<8; ++i) {
+    matrix.clear();
+    matrix.drawLine(15,7-i,15,8+i,LED_ON);
+    matrix.drawLine(16,7-i,16,8+i,LED_ON);
+    matrix.writeDisplay();
+    delay(ANIMATION_DELAY);
+  }
+
+  // Greeting and curtains
+  //
+  for(uint16_t i=1; i<TEXT_VIEW_STEPS+16; ++i) {
+    uint8_t offset=i<TEXT_VIEW_STEPS ? 0 : i-TEXT_VIEW_STEPS;
+
+    matrix.clear();
     
-  matrix.clear();
-//  matrix.setFont(&FreeSans9pt7b);
-  matrix.setTextSize(1);
-  matrix.setTextWrap(false);
-  matrix.setTextColor(LED_ON);
-  matrix.setCursor(8,0);
-  matrix.print("OKA");
-  matrix.setCursor(0,8);
-  matrix.print("ELECTRO");
-  matrix.writeDisplay();
-  delay(1000);
+    //  matrix.setFont(&FreeSans9pt7b);
+    matrix.setTextSize(1);
+    matrix.setTextWrap(false);
+    matrix.setTextColor(LED_ON);
+    matrix.setCursor(8,0-offset);
+    matrix.print("OKA");
+    matrix.setCursor(0,8-offset);
+    matrix.print("ELECTRO");
+
+    if(i<15) {
+      matrix.fillRect(0,     0,15-i,16,LED_OFF);
+      matrix.fillRect(16+i+1,0,15-i,16,LED_OFF);
+    }
+    
+    if(i<16) {
+      matrix.drawLine(15-i,0,15-i,15,LED_ON);
+      matrix.drawLine(16+i,0,16+i,15,LED_ON);
+    }
+ 
+    matrix.writeDisplay();
+
+    delay(ANIMATION_DELAY);
+  }
 }
 
 
