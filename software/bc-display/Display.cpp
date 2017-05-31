@@ -9,7 +9,7 @@ static uint8_t pxWarn2;
 
 // Voltage into chart pixel Y coordinate
 //
-static uint8_t pixelValue(float volts, float vmin, float vmax) { 
+static uint8_t pixelValue(float volts, float vmin, float vmax) {
   uint8_t pix;
   if(volts < vmin)
     pix=0;
@@ -63,7 +63,7 @@ void Display::loop(Voltage &vdata) {
   // Blink phase, just counting here, analyzing when blinking.
   //
   ++blinkPhase;
-  
+
   // Greeting if this the first run
   //
   if(!greetingShown) {
@@ -90,12 +90,12 @@ void Display::loop(Voltage &vdata) {
 //
 void Display::chart(Voltage &vdata) {
   matrix.clear();
-  
+
   bool w1Line=false;
   bool w2Line=false;
   bool w1Total=false;
   bool w2Total=false;
-    
+
   for(uint8_t i=vdata.getChannelFirst(); i<=vdata.getChannelLast(); ++i) {
     float volts=vdata.getLine(i);
 
@@ -109,15 +109,15 @@ void Display::chart(Voltage &vdata) {
     if(vpix<=pxWarn1) w1Line=true;
     if(vpix<=pxWarn2) w2Line=true;
   }
-  
+
   // If the rightmost columns are empty (they normally are) -- showing
   // the total in their place.
   //
   if(vdata.getChannelLast() < VCHANNELS-2) {
     uint8_t active=vdata.getActiveCount();
-    
+
     uint8_t vpix=pixelValue(vdata.getTotal(),CHART_VOLT_MIN * active, CHART_VOLT_MAX * active);
-    
+
     drawColumn(VCHANNELS-1,vpix);
 
     if(vpix<=pxWarn1) w1Total=true;
@@ -141,7 +141,7 @@ void Display::chart(Voltage &vdata) {
 void Display::drawColumn(uint8_t column, uint8_t value) {
   if(value>pixelCap)
     value=pixelCap;
-    
+
   if(opts.fillChart) {
     matrix.drawLine(column,15,column,15-value,LED_ON);
   }
@@ -152,16 +152,25 @@ void Display::drawColumn(uint8_t column, uint8_t value) {
   }
 }
 
-void Display::drawWarning(uint8_t column, bool w1, bool w2) {  
+void Display::drawWarning(uint8_t column, bool w1, bool w2) {
   bool draw=w2 ? (blinkPhase & 1)==0 : (blinkPhase & 2)==0;
-  
-  if(draw) {  
+
+  if(draw) {
     matrix.fillRect(column-1,0,3,5,LED_OFF);
     matrix.drawPixel(column,0,LED_ON);
     matrix.drawPixel(column,1,LED_ON);
     matrix.drawPixel(column,3,LED_ON);
   }
 }
+
+// Converted with http://javl.github.io/image2cpp/
+//
+const unsigned char grt32x16 [] PROGMEM = {
+	0x00, 0x00, 0x00, 0x00, 0x01, 0xe6, 0x63, 0xc0, 0x03, 0x36, 0x66, 0xc0, 0x03, 0x36, 0xcc, 0xc0,
+	0x03, 0x37, 0x8c, 0xc0, 0x03, 0x36, 0xcf, 0xc0, 0x03, 0x36, 0x6c, 0xc0, 0x01, 0xe6, 0x6c, 0xc0,
+	0x00, 0x00, 0x00, 0x00, 0x1d, 0x3b, 0xbb, 0xb8, 0x11, 0x22, 0x12, 0xa8, 0x1d, 0x3a, 0x13, 0x28,
+	0x11, 0x22, 0x12, 0xa8, 0x11, 0x22, 0x12, 0xa8, 0x1d, 0xbb, 0x92, 0xb8, 0x00, 0x00, 0x00, 0x00,
+};
 
 void Display::greeting() {
   if(!opts.showGreeting)
@@ -183,89 +192,25 @@ void Display::greeting() {
     uint8_t offset=i<TEXT_VIEW_STEPS ? 0 : i-TEXT_VIEW_STEPS;
 
     matrix.clear();
-    
-    //  matrix.setFont(&FreeSans9pt7b);
-    matrix.setTextSize(1);
-    matrix.setTextWrap(false);
-    matrix.setTextColor(LED_ON);
-    matrix.setCursor(8,0-offset);
-    matrix.print("OKA");
-    matrix.setCursor(0,8-offset);
-    matrix.print("ELECTRO");
 
+    // OKA ELECTRO bitmap
+    //
+    drawBitmap(0,0,grt32x16,32,16,LED_ON);
+
+    // Curtains
+    //
     if(i<15) {
       matrix.fillRect(0,     0,15-i,16,LED_OFF);
       matrix.fillRect(16+i+1,0,15-i,16,LED_OFF);
     }
-    
+
     if(i<16) {
       matrix.drawLine(15-i,0,15-i,15,LED_ON);
       matrix.drawLine(16+i,0,16+i,15,LED_ON);
     }
- 
+
     matrix.writeDisplay();
 
     delay(ANIMATION_DELAY);
   }
 }
-
-
-
-//void testMatrix() {
-//  for(uint8_t r=0; r<4; ++r) {
-//    matrix.setRotation(r);
-//    
-//    matrix.clear();
-//    matrix.drawPixel(0,0,LED_ON);
-//    matrix.drawPixel(0,3,LED_ON);
-//    matrix.drawPixel(2,0,LED_ON);
-//    matrix.drawPixel(31,15,LED_ON);
-//    
-//  //  matrix.setTextSize(1);
-//  //  matrix.setTextWrap(false);
-//  //  matrix.setTextColor(LED_ON);
-//  //  matrix.setCursor(0,6);
-//  //  matrix.print("Hello World");
-//  
-//    matrix.writeDisplay();
-//  
-//    delay(1000);
-//  
-//    for(int i=0; i<32; i++) {
-//      matrix.clear();
-//      matrix.drawLine(0,0,i,15,LED_ON);
-//      matrix.writeDisplay();
-//      delay(100);
-//    }
-//    
-//    matrix.clear();
-//    matrix.drawLine(0,0, 31,15, LED_ON);
-//    matrix.writeDisplay();
-//    delay(1000);
-//  
-//    matrix.clear();
-//    matrix.drawRect(0,0, 31,15, LED_ON);
-//    matrix.fillRect(2,2, 4,4, LED_ON);
-//    matrix.writeDisplay();
-//    delay(1000);
-//  
-//    matrix.clear();
-//    matrix.drawCircle(10,8, 5, LED_ON);
-//    matrix.writeDisplay();
-//    delay(1000);
-//  
-//    matrix.setTextSize(2);
-//    matrix.setTextWrap(false);
-//    matrix.setTextColor(LED_ON);
-//  
-//    for (int16_t x=32; x>=-210; --x) {
-//      matrix.clear();
-//      matrix.setCursor(x,0);
-//      matrix.print("OKA Battery Meter");
-//      matrix.writeDisplay();
-//      delay(25);
-//    }
-//  
-//    delay(1000);
-//  }
-//}
