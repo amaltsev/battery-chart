@@ -8,6 +8,10 @@ static const uint8_t MINPHASE=3;
 //
 void VoltageDemo::setup() {
   phase=MINPHASE;
+
+  for(uint8_t i=0; i<DEMOCHAN; ++i) {
+    volts[i]=random(0,400)/1000.0+3.6;
+  } 
 }
     
 // Generate test values
@@ -25,7 +29,7 @@ void VoltageDemo::measureAll() {
     nextStep(DEMOCHAN);
   }
 
-  // Full charge
+  // Instant charge.
   //
   else if(phase==1) {
     volts[step]=CHART_VOLT_MAX;
@@ -33,7 +37,7 @@ void VoltageDemo::measureAll() {
     nextStep(DEMOCHAN);
   }
 
-  // Gaps
+  // Gaps/disconnects.
   //
   else if(phase==2) {
     if(step==0)
@@ -44,7 +48,7 @@ void VoltageDemo::measureAll() {
     nextStep(10);
   }
 
-  // Gap fill
+  // Slowly charging.
   //
   else if(phase==3) {
     bool haveWork=false;
@@ -54,7 +58,7 @@ void VoltageDemo::measureAll() {
         if(volts[i]==0)
           volts[i]=CHART_VOLT_MIN - 0.1;
         else
-          volts[i]+=random(10,100)/1000.0;
+          volts[i]+=random(0,60)/1000.0;
           
         haveWork=true;
       }
@@ -64,14 +68,14 @@ void VoltageDemo::measureAll() {
       phase=4;
   }
 
-  // Random drop to below min
+  // Slow full discharge.
   //
   else {
     bool haveWork=false;
 
     for(uint8_t i=0; i<DEMOCHAN; ++i) {
       if(volts[i]>CHART_VOLT_MAX/2) {
-        volts[i]-=random(0,45)/1000.0;
+        volts[i]-=random(0,40)/1000.0;
         haveWork=true;
       }
     }

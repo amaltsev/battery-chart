@@ -1,8 +1,8 @@
 #include "Config.h"
 #include "Display.h"
 
-static const int ANIMATION_DELAY=10;
-static const int TEXT_VIEW_STEPS=1000/ANIMATION_DELAY;
+static const int ANIMATION_DELAY=20;
+static const int TEXT_VIEW_DELAY=3000;
 
 static uint8_t pxWarn1;
 static uint8_t pxWarn2;
@@ -188,14 +188,12 @@ void Display::greeting() {
 
   // Greeting and curtains
   //
-  for(uint16_t i=1; i<TEXT_VIEW_STEPS+16; ++i) {
-    uint8_t offset=i<TEXT_VIEW_STEPS ? 0 : i-TEXT_VIEW_STEPS;
-
+  for(uint16_t i=1; i<=16; ++i) {
     matrix.clear();
 
     // OKA ELECTRO bitmap
     //
-    drawBitmap(0,0,grt32x16,32,16,LED_ON);
+    matrix.drawBitmap(0,0,grt32x16,32,16,LED_ON);
 
     // Curtains
     //
@@ -208,6 +206,22 @@ void Display::greeting() {
       matrix.drawLine(15-i,0,15-i,15,LED_ON);
       matrix.drawLine(16+i,0,16+i,15,LED_ON);
     }
+
+    matrix.writeDisplay();
+
+    delay(ANIMATION_DELAY);
+  }
+
+  delay(TEXT_VIEW_DELAY);
+
+  // Slide off
+  //
+  for(uint16_t i=1; i<16; ++i) {
+    matrix.clear();
+
+    // OKA ELECTRO bitmap
+    //
+    matrix.drawBitmap(0,0-i,grt32x16,32,16,LED_ON);
 
     matrix.writeDisplay();
 
