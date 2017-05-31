@@ -25,6 +25,8 @@ class Display {
     bool greetingShown=false;
     uint8_t blinkPhase=0;
     uint8_t pixelCap=255;
+    uint8_t pixelValues[VCHANNELS];
+    
 };
 
 #endif // Oka_Display_h

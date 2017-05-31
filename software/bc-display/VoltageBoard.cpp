@@ -31,7 +31,6 @@ void VoltageBoard::setup() {
 // Reading and analyzing all channels
 //
 void VoltageBoard::measureAll() {
-  uint16_t hoffset=VCHANNELS * hcount;
   
   // MAX-11632 allows to measure and receive multiple channels in one go,
   // but since we're not really strapped for time or energy it is easier
@@ -63,51 +62,12 @@ void VoltageBoard::measureAll() {
   
     if(DEBUG_VOLTAGE && voltage>0)
       Serial << c << "=" << voltage << " ";
-    
-    // Storing values into hysteresis loop buffer first. Only when there is enough
-    // confidence in the change they are moved to actual inputs.
-    //
-    hloop[c + hoffset]=voltage;
+
+    input[c]=voltage;
   }
 
   if(DEBUG_VOLTAGE) Serial.println("");
 
-  // Updating input from hysteresis buffer when they match across all samples.
-  // On the first run not doing this because we want immediate values for animation
-  // and quick display.
-  //
-  if(firstRun) {
-    firstRun=false;
-    
-    for(uint8_t c=0; c<VCHANNELS; ++c) {
-      input[c]=hloop[c + hoffset];
-    }
-  }
-  else {
-    for(uint8_t c=0; c<VCHANNELS; ++c) {
-      int16_t v=hloop[c];
-      
-      hoffset=VCHANNELS;
-      
-      for(uint8_t h=1; h<HYSTERESIS; ++h, hoffset+=VCHANNELS) {
-        if(hloop[c+hoffset] != v) {
-          if(DEBUG_VOLTAGE)
-            Serial << "H.ignore c=" << c << " v=" << hloop[c+hoffset] << " vs " << v << "\n";
-          v=-1;
-          break;
-        }
-      }
-  
-      if(v>=0)
-        input[c]=v;
-    }
-  }
-  
-  // Hysteresis loop advance.
-  //
-  if(++hcount>=HYSTERESIS)
-    hcount=0;
-    
   // Our input voltages are measured from serially connected battery banks, so
   // each input is theoretically larger then the previous.
   //

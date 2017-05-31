@@ -38,18 +38,27 @@ const int PIN_OPT_8               = A7;
 //
 const uint8_t LED_MATRIX_IDS[4]   = {0x73,0x72,0x71,0x70};
 
+// Voltage channels (hardware bound)
+//
+const uint8_t VCHANNELS           = 32;
+
+// Display hysteresis half-step
+//
+const float HYSTERESIS_HSTEP      = 0.3;
+
 // Debug options (Serial output)
 //
 const bool DEBUG_ANY              = false;
-const bool DEBUG_VOLTAGE          = true && DEBUG_ANY;
+const bool DEBUG_VOLTAGE          = false && DEBUG_ANY;
 const bool DEBUG_OPTIONS          = false && DEBUG_ANY;
-const bool DEBUG_DISPLAY          = false && DEBUG_ANY;
+const bool DEBUG_DISPLAY          = true && DEBUG_ANY;
 
 // DIP Switch options
 //
 extern Options opts;
 
-// Streaming serial output from: https://playground.arduino.cc/Main/StreamingOutput
+// A brilliant streaming serial output hack from:
+// https://playground.arduino.cc/Main/StreamingOutput
 //
 template<class T> inline Print &operator <<(Print &obj, T arg) { obj.print(arg); return obj; } 
 

@@ -3,9 +3,6 @@
 
 #include "Config.h"
 
-const uint8_t VCHANNELS   = 32;
-const uint8_t HYSTERESIS  = 4;
-
 // Reading voltage for all channels.
 //
 class Voltage {
@@ -88,9 +85,6 @@ class VoltageBoard : public Voltage {
     virtual void measureAll();
   private:
     int16_t input[VCHANNELS];
-    int16_t hloop[VCHANNELS * HYSTERESIS];
-    uint8_t hcount=0;
-    bool    firstRun=true;
 };
 
 // Demo (randomized) voltage readings

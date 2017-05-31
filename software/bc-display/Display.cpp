@@ -7,24 +7,35 @@ static const int TEXT_VIEW_DELAY=3000;
 static uint8_t pxWarn1;
 static uint8_t pxWarn2;
 
-// Voltage into chart pixel Y coordinate
+// Voltage into chart pixel Y coordinate with a hysteresis depending on the
+// given current value of that column.
 //
-static uint8_t pixelValue(float volts, float vmin, float vmax) {
+static uint8_t pixelCalculate(float volts, float vmin, float vmax, uint8_t pixcur) {
   uint8_t pix;
+  uint8_t pixnormal;
+  
   if(volts < vmin)
     pix=0;
   else if(volts > vmax)
     pix=15;
   else {
     float t=(volts-vmin)*15/(vmax-vmin);
-    pix=(uint8_t)(t + 0.5);
+    
+    pix=pixnormal=(uint8_t)(t + 0.5);
+
+    // Hysteresis. If the new pixel value is larger, then the voltage value
+    // has to be at least .75 of a step higher.
+    //
+    if(pix>pixcur)
+      pix=(uint8_t)(t + 0.5 - HYSTERESIS_HSTEP);
+      
+    else if(pix<pixcur)
+      pix=(uint8_t)(t + 0.5 + HYSTERESIS_HSTEP);
+  
+    if(DEBUG_DISPLAY && pix!=pixnormal)
+      Serial << "-- V2P(" << volts << "," << vmin << "," << vmax << "," << pixcur << ")=" << pix << " / " << pixnormal << " t=" << t << "\n";
   }
-
-//  if(DEBUG_DISPLAY) {
-//    Serial.print("V2P("); Serial.print(volts); Serial.print(","); Serial.print(vmin); Serial.print(","); Serial.print(vmax);
-//    Serial.print("="); Serial.println(pix);
-//  }
-
+  
   return pix;
 }
 
@@ -42,10 +53,14 @@ void Display::setup() {
   matrix.clear();
   matrix.writeDisplay();
 
+  // Initial pixel values
+  //
+  memset(pixelValues,0,sizeof(pixelValues));
+
   // Voltage warnings recalculated into pixels
   //
-  pxWarn1=pixelValue(CHART_VOLT_WARN1,CHART_VOLT_MIN,CHART_VOLT_MAX);
-  pxWarn2=pixelValue(CHART_VOLT_WARN2,CHART_VOLT_MIN,CHART_VOLT_MAX);
+  pxWarn1=pixelCalculate(CHART_VOLT_WARN1,CHART_VOLT_MIN,CHART_VOLT_MAX,15);
+  pxWarn2=pixelCalculate(CHART_VOLT_WARN2,CHART_VOLT_MIN,CHART_VOLT_MAX,15);
 }
 
 // Loop (both chart and intro)
@@ -102,9 +117,11 @@ void Display::chart(Voltage &vdata) {
     // The 16 pixels we have display values from MIN (2.8V) to
     // MAX (4.3V) in 0.1V steps.
     //
-    uint8_t vpix=pixelValue(volts,CHART_VOLT_MIN,CHART_VOLT_MAX);
+    uint8_t vpix=pixelCalculate(volts,CHART_VOLT_MIN,CHART_VOLT_MAX,pixelValues[i]);
 
     drawColumn(i,vpix);
+
+    pixelValues[i]=vpix;
 
     if(vpix<=pxWarn1) w1Line=true;
     if(vpix<=pxWarn2) w2Line=true;
@@ -116,9 +133,11 @@ void Display::chart(Voltage &vdata) {
   if(vdata.getChannelLast() < VCHANNELS-2 && vdata.getActiveCount()>0) {
     uint8_t active=vdata.getActiveCount();
 
-    uint8_t vpix=pixelValue(vdata.getTotal(),CHART_VOLT_MIN * active, CHART_VOLT_MAX * active);
+    uint8_t vpix=pixelCalculate(vdata.getTotal(),CHART_VOLT_MIN * active, CHART_VOLT_MAX * active, pixelValues[VCHANNELS-1]);
 
     drawColumn(VCHANNELS-1,vpix);
+
+    pixelValues[VCHANNELS-1]=vpix;
 
     if(vpix<=pxWarn1) w1Total=true;
     if(vpix<=pxWarn2) w2Total=true;
