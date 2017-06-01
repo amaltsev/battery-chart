@@ -83,13 +83,13 @@ void VoltageBoard::measureAll() {
   float vmax=-1;
   while(true) {
 
-    // Finding the next input value that is larger then the given
+    // Finding the next input value that is larger than
+    // the given with the smallest delta.
     //
     uint8_t channel=VCHANNELS;
     for(uint8_t c=0; c<VCHANNELS; c++) {
-      if(input[c]>lastInput) {
+      if(input[c]>lastInput && (channel==VCHANNELS || input[c]<input[channel])) {
         channel=c;
-        break;
       }
     }
 

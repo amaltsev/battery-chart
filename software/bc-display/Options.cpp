@@ -9,7 +9,7 @@ void Options::setup() {
   pinMode(PIN_OPT_4_ROTATE      ,INPUT_PULLUP);
   pinMode(PIN_OPT_5_DRAW_BOTTOM ,INPUT_PULLUP);
   pinMode(PIN_OPT_6_BLINK_LOW   ,INPUT_PULLUP);
-  pinMode(PIN_OPT_7             ,INPUT_PULLUP);
+  pinMode(PIN_OPT_7_ENABLE_BRT  ,INPUT_PULLUP);
   pinMode(PIN_OPT_8             ,INPUT_PULLUP);
 }
 
@@ -20,6 +20,7 @@ void Options::update() {
   rotateScreen= digitalRead(PIN_OPT_4_ROTATE)==LOW;
   drawBottom=   digitalRead(PIN_OPT_5_DRAW_BOTTOM)==LOW;
   blinkLow=     digitalRead(PIN_OPT_6_BLINK_LOW)==LOW;
+  enableBright= digitalRead(PIN_OPT_7_ENABLE_BRT)==LOW;
 
   if(DEBUG_OPTIONS) {
     Serial.print("Options: ");

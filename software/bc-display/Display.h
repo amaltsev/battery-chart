@@ -26,7 +26,11 @@ class Display {
     uint8_t blinkPhase=0;
     uint8_t pixelCap=255;
     uint8_t pixelValues[VCHANNELS];
+
+    int     brsamples[BRIGHTNESS_SAMPLES];
+    int8_t  brindex=-1;
     
+    uint8_t brightness=0;
 };
 
 #endif // Oka_Display_h

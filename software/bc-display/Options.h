@@ -30,6 +30,10 @@ class Options {
     // Blink when low
     //
     bool blinkLow=false;
+
+    // Enable brightness control
+    //
+    bool enableBright=false;
 };
 
 #endif // Oka_Options_h

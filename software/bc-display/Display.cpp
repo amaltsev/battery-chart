@@ -32,8 +32,8 @@ static uint8_t pixelCalculate(float volts, float vmin, float vmax, uint8_t pixcu
     else if(pix<pixcur)
       pix=(uint8_t)(t + 0.5 + HYSTERESIS_HSTEP);
   
-    if(DEBUG_DISPLAY && pix!=pixnormal)
-      Serial << "-- V2P(" << volts << "," << vmin << "," << vmax << "," << pixcur << ")=" << pix << " / " << pixnormal << " t=" << t << "\n";
+      //    if(DEBUG_DISPLAY && pix!=pixnormal)
+      //      Serial << "-- V2P(" << volts << "," << vmin << "," << vmax << "," << pixcur << ")=" << pix << " / " << pixnormal << " t=" << t << "\n";
   }
   
   return pix;
@@ -73,7 +73,48 @@ void Display::loop(Voltage &vdata) {
 
   // Brightness
   //
-  ///// FIXME
+  if(opts.enableBright) {
+    int rbr=analogRead(PIN_BRIGHTNESS);   // about 0..850
+
+    if(brindex<0) {
+      for(uint8_t i=0; i<BRIGHTNESS_SAMPLES; ++i)
+        brsamples[i]=rbr;
+      brindex=0;
+    }
+    else {
+      brsamples[brindex]=rbr;
+      ++brindex;
+      if(brindex>=BRIGHTNESS_SAMPLES)
+        brindex=0;
+    }
+
+    // Averaging all samples
+    //
+    uint32_t tbr=0;
+    for(uint8_t i=0; i<BRIGHTNESS_SAMPLES; ++i)
+      tbr+=brsamples[i];
+
+    int abr=tbr/BRIGHTNESS_SAMPLES;
+    
+    if(abr<200)
+      brightness=0;
+    else if(abr<300)
+      brightness=1;
+    else if(abr<400)
+      brightness=2;
+    else if(abr<600)
+      brightness=3;
+    else
+      brightness=4;
+    
+    if(DEBUG_DISPLAY)
+      Serial << "Brightness: " << rbr << " -> " << abr << " -> " << brightness << "\n";
+  }
+  else {
+    brightness=2;
+  }
+  
+  matrix.setBrightness(brightness);
 
   // Blink phase, just counting here, analyzing when blinking.
   //
@@ -147,8 +188,11 @@ void Display::chart(Voltage &vdata) {
   // in the total column and one to the right of the line columns.
   //
   if(opts.blinkLow && pixelCap>15) {
-    if(w1Line || w2Line)
-      drawWarning(vdata.getChannelLast(),w1Line,w2Line);
+    if(w1Line || w2Line) {
+      uint8_t c=vdata.getChannelLast()+2;
+      if(c>=VCHANNELS-2) c-=2;
+      drawWarning(c,w1Line,w2Line);
+    }
 
     if(w1Total || w2Total)
       drawWarning(VCHANNELS-1,w1Total,w2Total);
@@ -161,7 +205,7 @@ void Display::drawColumn(uint8_t column, uint8_t value) {
   if(value>pixelCap)
     value=pixelCap;
 
-  if(opts.fillChart) {
+  if(opts.fillChart && brightness>0) {
     matrix.drawLine(column,15,column,15-value,LED_ON);
   }
   else {

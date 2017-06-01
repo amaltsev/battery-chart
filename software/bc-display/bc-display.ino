@@ -15,7 +15,7 @@ void setup() {
   // Randomizing with noise from an unconnected
   // pin (for demo mode)
   //
-  randomSeed(analogRead(A6));
+  randomSeed(analogRead(PIN_RANDOM));
 
   display.setup();
 

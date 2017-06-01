@@ -28,8 +28,14 @@ const int PIN_OPT_3_FILL_CHART    = 4;
 const int PIN_OPT_4_ROTATE        = 5;
 const int PIN_OPT_5_DRAW_BOTTOM   = 6;
 const int PIN_OPT_6_BLINK_LOW     = 7;
-const int PIN_OPT_7               = 8;
+const int PIN_OPT_7_ENABLE_BRT    = 8;
 const int PIN_OPT_8               = A7;
+
+const int PIN_BRIGHTNESS          = A2;     // Photo resistor
+
+const int PIN_RANDOM              = A6;     // Unconnected
+
+const uint8_t BRIGHTNESS_SAMPLES  = (10000 / UPDATE_INTERVAL_MS); // Average over that many samples
 
 // My matrices are wired with 0x70 on the right in the normal
 // connector-top orientation. And the LED driver library assumes
@@ -49,9 +55,9 @@ const float HYSTERESIS_HSTEP      = 0.3;
 // Debug options (Serial output)
 //
 const bool DEBUG_ANY              = false;
-const bool DEBUG_VOLTAGE          = true && DEBUG_ANY;
+const bool DEBUG_VOLTAGE          = false && DEBUG_ANY;
 const bool DEBUG_OPTIONS          = false && DEBUG_ANY;
-const bool DEBUG_DISPLAY          = false && DEBUG_ANY;
+const bool DEBUG_DISPLAY          = true && DEBUG_ANY;
 
 // DIP Switch options
 //
