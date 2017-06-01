@@ -71,6 +71,15 @@ class Voltage {
     uint8_t cFirst=VCHANNELS;
     uint8_t cLast=VCHANNELS;
     uint8_t nActive=0;
+
+    void updateFirstLast() {
+      cFirst=0;
+      while(cFirst<VCHANNELS && volts[cFirst]==0) ++cFirst;
+      if(cFirst>=VCHANNELS) cFirst=0;
+  
+      cLast=VCHANNELS-1;
+      while(cLast>cFirst && volts[cLast]==0) --cLast;
+    }
 };
 
 // Real readings from MAX-11632 chips and resistor dividers.

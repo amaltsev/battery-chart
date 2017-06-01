@@ -57,11 +57,13 @@ void VoltageBoard::measureAll() {
     // 1.5K resistors to the ground). Just in case there is some noise, value
     // below threshold are also treated as zeros.
     //
-    if(voltage<=ZERO_THRESHOLD)
+    if(voltage<=ZERO_THRESHOLD) {
       voltage=0;
+      volts[c]=0;
+    }
   
-    if(DEBUG_VOLTAGE && voltage>0)
-      Serial << c << "=" << voltage << " ";
+    if(DEBUG_VOLTAGE)
+      Serial << (c==0 ? "Measured: " : "") << c << "=" << voltage << " ";
 
     input[c]=voltage;
   }
@@ -101,7 +103,7 @@ void VoltageBoard::measureAll() {
 
     ++active;
 
-    if(v>2.8 && v<4.4) {
+    if(v>2.7 && v<4.4) {
       if(vmin<0 || vmin>v) vmin=v;
       if(vmax<0 || vmax<v) vmax=v;
     }
@@ -135,8 +137,5 @@ void VoltageBoard::measureAll() {
   // Stats for charting
   //
   nActive=active;
-  cFirst=0;
-  while(cFirst<VCHANNELS && volts[cFirst]==0) ++cFirst;
-  cLast=VCHANNELS-1;
-  while(cLast>0 && volts[cLast]==0) --cLast;
+  updateFirstLast();
 }

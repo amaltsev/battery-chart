@@ -115,12 +115,8 @@ void VoltageDemo::measureAll() {
       ++nActive;
     }
   }
-  
-  cFirst=0;
-  while(cFirst<VCHANNELS && volts[cFirst]==0) ++cFirst;
-  
-  cLast=VCHANNELS-1;
-  while(cLast>0 && volts[cLast]==0) --cLast;
+
+  updateFirstLast();
 }
 
 void VoltageDemo::nextStep(int16_t maxStep) {

@@ -12,7 +12,8 @@ void setup() {
   if(DEBUG_ANY)
     Serial.begin(9600);
 
-  // Randomizing with noise from an unconnected pin
+  // Randomizing with noise from an unconnected
+  // pin (for demo mode)
   //
   randomSeed(analogRead(A6));
 

@@ -49,9 +49,9 @@ const float HYSTERESIS_HSTEP      = 0.3;
 // Debug options (Serial output)
 //
 const bool DEBUG_ANY              = false;
-const bool DEBUG_VOLTAGE          = false && DEBUG_ANY;
+const bool DEBUG_VOLTAGE          = true && DEBUG_ANY;
 const bool DEBUG_OPTIONS          = false && DEBUG_ANY;
-const bool DEBUG_DISPLAY          = true && DEBUG_ANY;
+const bool DEBUG_DISPLAY          = false && DEBUG_ANY;
 
 // DIP Switch options
 //
